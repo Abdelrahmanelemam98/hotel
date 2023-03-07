@@ -12,6 +12,7 @@ exports.getAll = (request, response, next) => {
       next(errors);
     });
 };
+
 exports.addData = async (request, response, next) => {
   let addinfo = await new HomeSchema({
     checkIn: request.body.checkIn,
