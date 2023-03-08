@@ -2,17 +2,18 @@
 const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-sequence')(mongoose);
 
+
 const RoomsSuitsSchema = new mongoose.Schema({
     _id:{type:Number},
     type:{type:String ,enum:["Junior Suits","Family Room","Double Room", "Deluxe Room", "Superior Room"] },
-    price:{type:Number},
-    images:[{type:String}],
-    details:{type:Number, ref:'RoomDetails'},
-    extra_services:{type:Number, ref:'ExtraServices'}
+    room_price:{type:Number},
+    image:{type:String},
+    room_details:{type:Number, ref:'RoomDetails'},
+    extra_services:[{type:Array, ref:'ExtraServices'}]
 },{_id:false});
 
 RoomsSuitsSchema.plugin(autoIncrement,{id:"room_id"});
-module.exports = mongoose.model("RoomsSuitsSchema", RoomsSuitsSchema);
+module.exports = mongoose.model("RoomsAndSuits", RoomsSuitsSchema);
 
 
 //=============================================================================//
@@ -21,11 +22,11 @@ const RoomDetailsSchema = new mongoose.Schema({
     _id:Number,
     description:{type:String},
     amenities_details:{type:Number, ref:'RoomAmenities'},
-    checkInAvailableTime:{type:String},
-    checkoutTime:{type:String},
-    emailArrivalTime:{type:String},
+    checkInAvailableTime:{type:Date},
+    checkoutTime:{type:Date},
+    emailArrivalTime:{type:Number},
     pets:{type:String , enum:["Allow", "Not Allow"]},
-    children_details:{type:number , ref:'ChildernDetails'}
+    children_details:{type:Number , ref:'ChildernDetails'}
 },{_id:false});
 
 RoomDetailsSchema.plugin(autoIncrement,{id:"details_id"});
@@ -50,28 +51,14 @@ module.exports = mongoose.model('RoomAmenities', RoomAmenitiesSchema);
 
 const ChildernDetailsSchema = new mongoose.Schema({
     _id:{type:Number},
-    allowed:{type:Boolean},
+    children_allowed:{type:Boolean},
     extra_bed:{type:Boolean},
-    price_of_bed:{type:Number},
-    price_of_breakfast:{type:Number}
+    extra_bed_price:{type:Number},
+    children_breakfast_price:{type:Number}
 },{_id:false});
 
 ChildernDetailsSchema.plugin(autoIncrement,{id:'childrenDetails_id'});
 module.exports = mongoose.model('ChildernDetails', ChildernDetailsSchema)
-
-
-//=============================================================================//
-
-const ExtraServicesSchema = new mongoose.Schema({
-    _id:{type:Number},
-    name:{type:String},
-    price:{type:Number},
-    details:{type:String}
-},{id:false});
-
-ExtraServicesSchema.plugin(autoIncrement,{id:'services_id'});
-module.exports = mongoose.model('ExtraServices',ExtraServicesSchema)
-
 
 
 

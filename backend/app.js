@@ -1,6 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const homeRouter = require("./Router/homeRouter");
+const roomRouter = require("./Router/rooms&suitsRouter")
+const extraServiceRouter = require("./Router/extraServicesRouter");
+const imageRouter = require('./Router/imageRouter');
 const app = express();
 mongoose.set("strictQuery", false);
 
@@ -24,6 +27,9 @@ app.use((request, response, next) => {
 app.use(express.json());
 // router
 app.use(homeRouter);
+app.use(roomRouter);
+app.use(extraServiceRouter);
+app.use(imageRouter);
 //not found
 app.use((request, response, next) => {
   response.status(404).send("Not Found");
